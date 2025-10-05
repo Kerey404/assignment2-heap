@@ -105,7 +105,8 @@ The visual data confirms theoretical expectations and shows **near-identical per
 ---
 
 📄 *For detailed mathematical analysis, see:*  
-[`docs/analysis-report.pdf`](docs/analysis-report.pdf)
+[`docs/analysis-report-alikhan.pdf`](docs/analysis-report-alikhan.pdf)
+[`docs/analysis-report-bakytzhan.pdf`](docs/analysis-report-bakytzhan.pdf)
 
 ---
 
