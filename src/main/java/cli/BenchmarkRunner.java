@@ -1,52 +1,92 @@
 package cli;
 
 import algorithms.MaxHeap;
+import algorithms.MinHeap;
 import metrics.PerformanceTracker;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
-
+import java.util.Scanner;
 
 public class BenchmarkRunner {
+
     private static final Random R = new Random(42);
 
     public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Heap Benchmark Runner ===");
+        System.out.println("1. Run MaxHeap benchmark");
+        System.out.println("2. Run MinHeap benchmark");
+        System.out.print("Choose (1 or 2): ");
+        int choice = sc.nextInt();
+
+        if (choice == 1) runHeapBenchmark("max");
+        else if (choice == 2) runHeapBenchmark("min");
+        else System.out.println("Invalid choice. Exiting.");
+    }
+
+    private static void runHeapBenchmark(String type) throws IOException {
         int[] ns = {100, 1000, 10000};
         int runs = 3;
 
-        java.nio.file.Files.createDirectories(java.nio.file.Paths.get("docs/benchmarks"));
-        try (FileWriter fw = new FileWriter("docs/benchmarks/maxheap_results.csv")) {
+        String fileName = "docs/benchmarks/" + type + "heap_results.csv";
+        Files.createDirectories(Paths.get("docs/benchmarks"));
+
+        try (FileWriter fw = new FileWriter(fileName)) {
             fw.write("n,run,inputType," + PerformanceTracker.csvHeader() + "\n");
 
             for (int n : ns) {
                 for (int run = 1; run <= runs; run++) {
                     int[] data = randomArray(n);
 
-                    // Warmup
+                    // --- Warmup phase ---
                     for (int w = 0; w < 2; w++) {
-                        MaxHeap h = new MaxHeap();
-                        for (int v : data) h.insert(v);
-                        while (!h.isEmpty()) h.extractMax();
+                        if (type.equals("max")) {
+                            MaxHeap h = new MaxHeap();
+                            for (int v : data) h.insert(v);
+                            while (!h.isEmpty()) h.extractMax();
+                        } else {
+                            MinHeap h = new MinHeap();
+                            for (int v : data) h.insert(v);
+                            while (!h.isEmpty()) h.extractMin();
+                        }
                     }
 
-                    // Benchmark
-                    MaxHeap heap = new MaxHeap();
-                    PerformanceTracker m = heap.getMetrics();
-                    m.reset();
-                    long start = System.nanoTime();
-                    for (int v : data) heap.insert(v);
-                    while (!heap.isEmpty()) heap.extractMax();
-                    long end = System.nanoTime();
-                    m.timeNs = end - start;
+                    // --- Benchmark phase ---
+                    PerformanceTracker m;
+                    long start, end;
+                    if (type.equals("max")) {
+                        MaxHeap heap = new MaxHeap();
+                        m = heap.getMetrics();
+                        m.reset();
+                        start = System.nanoTime();
+                        for (int v : data) heap.insert(v);
+                        while (!heap.isEmpty()) heap.extractMax();
+                        end = System.nanoTime();
+                    } else {
+                        MinHeap heap = new MinHeap();
+                        m = heap.getMetrics();
+                        m.reset();
+                        start = System.nanoTime();
+                        for (int v : data) heap.insert(v);
+                        while (!heap.isEmpty()) heap.extractMin();
+                        end = System.nanoTime();
+                    }
 
+                    m.timeNs = end - start;
                     fw.write(n + "," + run + ",random," + m.toCsv() + "\n");
                     fw.flush();
-                    System.out.println("n=" + n + " run=" + run + " time=" + m.timeNs + " ns");
+
+                    System.out.printf("✅ %sHeap | n=%d | run=%d | time=%.2f ms%n",
+                            type.equals("max") ? "Max" : "Min",
+                            n, run, m.timeNs / 1_000_000.0);
                 }
             }
         }
-        System.out.println("✅ Results saved to docs/benchmarks/maxheap_results.csv");
+        System.out.printf("📊 Results saved to %s%n", "docs/benchmarks/" + type + "heap_results.csv");
     }
 
     private static int[] randomArray(int n) {
