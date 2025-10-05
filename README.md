@@ -1,122 +1,67 @@
-Assignment 2 — Heap Data Structures
+# Assignment 2 — Heap Data Structures
 
+## 👤 Authors
+- **Bakytzhan Kassymgali (Kerey404)** — *Max-Heap Implementation (increase-key, extract-max)*
+- **[Alikhan Serik]** — *Min-Heap Implementation (decrease-key, merge)*
 
+---
 
+## 📘 Overview
+This project implements and analyzes **Heap Data Structures** as part of the *Design and Analysis of Algorithms* (DAA) course.
 
+- **Max-Heap** — supports `insert`, `extractMax`, `increaseKey`, and `merge`.
+- **Min-Heap** — supports `insert`, `extractMin`, `decreaseKey`, and `merge`.
+- Each implementation includes **performance tracking** (comparisons, swaps, array accesses, allocations, and time).
 
+---
 
-👥 Authors
+## 📁 Project Structure
 
-Bakytzhan Kassymgali  — Max-Heap Implementation (increase-key, extract-max)
+```assignment2-heap/
+│
 
-Alikhan Serik — Min-Heap Implementation (decrease-key, merge)
+├── docs/ 
 
-🧾 Overview
-
-This project implements and analyzes Heap Data Structures as part of the Design and Analysis of Algorithms (DAA) course.
-
-Max-Heap — supports insert, extractMax, increaseKey, and merge
-
-Min-Heap — supports insert, extractMin, decreaseKey, and merge
-
-Includes detailed performance tracking, benchmarking, and comparative analysis
-
-📁 Project Structure
-
-assignment2-heap/
-├── docs/
 │ ├── benchmarks/
+
 │ │ └── maxheap_results.csv
+
 │ ├── performance-plots/
+
 │ └── analysis-report.pdf
 │
+
 ├── src/
+
 │ ├── main/java/
+
 │ │ ├── algorithms/MaxHeap.java
+
 │ │ ├── metrics/PerformanceTracker.java
+
 │ │ └── cli/BenchmarkRunner.java
+
 │ └── test/java/
 │ └── algorithms/MaxHeapTest.java
 │
+
 ├── pom.xml
 └── README.md
+```
+**Analysis**
 
-⚙️ Build & Run
-🧱 Build the project
+| n     | Comparisons | Swaps  | Array Accesses | Allocations | Time (ns) |
+| ----- | ----------- | ------ | -------------- | ----------- | --------- |
+| 100   | 1057        | 523    | 4506           | 3           | 111000    |
+| 1000  | 17206       | 8574   | 71708          | 6           | 3106000   |
+| 10000 | 239610      | 119737 | 988168         | 10          | 13800000  |
 
-mvn clean package
 
-🚀 Run benchmarks
+**Time Complexities**
 
-java -cp target/assignment2-heap-1.0-SNAPSHOT.jar cli.BenchmarkRunner
-
-Example output:
-n=100 run=1 time=909300 ns
-n=1000 run=1 time=325400 ns
-✅ Results saved to docs/benchmarks/maxheap_results.csv
-
-🧪 Run Tests
-
-To run unit tests using Maven and JUnit 5:
-mvn test
-
-Expected result:
-[INFO] BUILD SUCCESS
-
-📊 Benchmark Data
-
-All benchmark results are saved in:
-docs/benchmarks/maxheap_results.csv
-
-n	Comparisons	Swaps	Array Accesses	Allocations	Time (ns)
-100	1057	523	4506	3	111000
-1000	17206	8574	71708	6	3106000
-10000	239610	119737	988168	10	13800000
-🧮 Time Complexities
-Operation	Max-Heap	Min-Heap	Complexity
-Insert	✔️	✔️	O(log n)
-Extract (max/min)	✔️	✔️	O(log n)
-Increase/Decrease Key	✔️	✔️	O(log n)
-Merge	✔️	✔️	O(n)
-📈 Analysis Report
-
-The detailed analysis report will be added later as:
-docs/analysis-report.pdf
-
-It will include:
-
-Theoretical background
-
-Experimental results
-
-Max vs Min Heap comparison
-
-Performance graphs and analysis
-
-🏆 Highlights
-
-Clean Code principles applied
-
-Fully Maven-compatible
-
-Tested with JUnit 5
-
-Works in IntelliJ IDEA and CLI
-
-Organized project structure and benchmarks
-
-🔗 Repository Link
-
-👉 GitHub Repository
-
-🧠 Notes
-
-This assignment is part of the Design and Analysis of Algorithms course, focusing on:
-
-Implementing efficient data structures
-
-Measuring algorithm performance
-
-Analyzing asymptotic behavior
-
-© 2025 Bakytzhan Kassymgali — All rights reserved.
+| Operation             | Max-Heap | Min-Heap | Complexity |
+| --------------------- | -------- | -------- | ---------- |
+| Insert                | ✔️       | ✔️       | O(log n)   |
+| Extract (max/min)     | ✔️       | ✔️       | O(log n)   |
+| Increase/Decrease Key | ✔️       | ✔️       | O(log n)   |
+| Merge                 | ✔️       | ✔️       | O(n)       |
