@@ -37,9 +37,13 @@ public class MinHeap {
         return metrics;
     }
 
-    public int size() { return size; }
+    public int size() {
+        return size;
+    }
 
-    public boolean isEmpty() { return size == 0; }
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
     public void insert(int value) {
         ensureCapacity();
